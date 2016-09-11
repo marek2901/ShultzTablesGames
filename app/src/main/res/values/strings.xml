@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SchultzTablesGame</string>
+    <string name="drawer_title">View Your Score</string>
 </resources>
