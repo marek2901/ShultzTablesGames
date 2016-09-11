@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dziewit.marek.schultztablesgame.custom.views.ShultzTableView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.tool_bar)
     protected Toolbar toolbar;
+
+    @BindView(R.id.table_view)
+    ShultzTableView tableView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
         for (int i = 0; i < 6; i++) {
-            menu.add(String.format("%sx%s", i + 2, i + 2));
+            menu.add(0, i, 0, String.format("%sx%s", i + 2, i + 2));
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int option = item.getItemId() + 2;
+        tableView.refreshView(option, option);
+        return super.onOptionsItemSelected(item);
     }
 }
