@@ -22,22 +22,24 @@ public class MainActivityTest {
 
     public static final String TOOLBAR_FIELD_NAME = "toolbar";
     public static final String DRAWER_LAYOUT_FIELD_NAME = "drawerLayout";
-    private MainActivity mainActivity;
+
+    private ActivityController<MainActivity> mainActivityActivityController;
 
     @Before
     public void setUp() throws Exception {
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        mainActivityActivityController = Robolectric.buildActivity(MainActivity.class);
     }
 
     @After
     public void tearDown() throws Exception {
-
+        mainActivityActivityController.pause().stop().destroy();
     }
 
     @Test
     public void test_OnCreate() {
-        assertNotNull(ReflectionHelpers.getField(mainActivity, TOOLBAR_FIELD_NAME));
-        assertNotNull(ReflectionHelpers.getField(mainActivity, DRAWER_LAYOUT_FIELD_NAME));
+        mainActivityActivityController.create();
+        assertNotNull(ReflectionHelpers.getField(mainActivityActivityController.get(), TOOLBAR_FIELD_NAME));
+        assertNotNull(ReflectionHelpers.getField(mainActivityActivityController.get(), DRAWER_LAYOUT_FIELD_NAME));
     }
 
 }
