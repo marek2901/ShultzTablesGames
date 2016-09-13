@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dziewit.marek.schultztablesgame.controllers.GameController;
 import com.dziewit.marek.schultztablesgame.custom.views.ShultzTableView;
 
 import butterknife.BindView;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.table_view)
     ShultzTableView tableView;
 
+    GameController gameController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initToolbar();
 
+        gameController = new GameController.Builder().gameView(tableView).build();
     }
 
     private void initToolbar() {
