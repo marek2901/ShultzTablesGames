@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.dziewit.marek.schultztablesgame.R;
+import com.dziewit.marek.schultztablesgame.custom.utils.TableCellRunable;
 
 
 /**
@@ -52,7 +53,15 @@ public class ShultzTableView extends LinearLayout {
 
     private void init() {
         this.setOrientation(VERTICAL);
-        refreshView(DEFAULT_ROWS, DEFAULT_COLUMNS);
+        refreshView(getRowsCount(), getColumnsCount());
+    }
+
+    public int getColumnsCount() {
+        return DEFAULT_COLUMNS;
+    }
+
+    public int getRowsCount() {
+        return DEFAULT_ROWS;
     }
 
     public void refreshView(int rows, int columns) {
@@ -98,15 +107,32 @@ public class ShultzTableView extends LinearLayout {
         return String.format("%s%s", ROW_PREFIX, integerID);
     }
 
-    public boolean setCellValue(int x, int y, int value) {
-        LinearLayout row = (LinearLayout) this.findViewWithTag(getRowID(y));
-        if (row != null) {
-            AppCompatButton cell = (AppCompatButton) row.findViewWithTag(getCellID(x));
+    public boolean setCellValue(int column, int row, int value) {
+        LinearLayout rowLayout = (LinearLayout) this.findViewWithTag(getRowID(row));
+        if (rowLayout != null) {
+            AppCompatButton cell = (AppCompatButton) rowLayout.findViewWithTag(getCellID(column));
             if (cell != null) {
                 cell.setText(String.valueOf(value));
                 return true;
             }
         }
         return false;
+    }
+
+    public void clearValues() {
+        cellIterator(new TableCellRunable() {
+            @Override
+            public void run(int row, int column) {
+                setCellValue(column, row, Integer.parseInt(DEFAULT_CELL_VALUE));
+            }
+        });
+    }
+
+    public void cellIterator(TableCellRunable runable) {
+        for (int row = 0; row < getRowsCount(); row++) {
+            for (int column = 0; column < getColumnsCount(); column++) {
+                runable.run(row, column);
+            }
+        }
     }
 }
